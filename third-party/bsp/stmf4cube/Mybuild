@@ -1,7 +1,9 @@
 package third_party.bsp.stmf4cube
 
 @Build(stage=1,script="$(EXTERNAL_MAKE) download extract patch")
-@BuildArtifactPath(cppflags="-DSTM32F407xx -DUSE_RTOS=0 -I$(ROOT_DIR)/third-party/bsp/stmf4cube/ $(addprefix -I$(EXTERNAL_BUILD_DIR)/third_party/bsp/stmf4cube/core/STM32Cube_FW_F4_V1.13.0/,Drivers/STM32F4xx_HAL_Driver/Inc Drivers/CMSIS/Device/ST/STM32F4xx/Include Drivers/CMSIS/Include Drivers/BSP/STM32F4-Discovery)")
+@BuildArtifactPath(cppflags="-DSTM32F407xx -DUSE_RTOS=0 -I$(ROOT_DIR)/third-party/bsp/stmf4cube/ $(addprefix -I$(EXTERNAL_BUILD_DIR)/third_party/bsp/stmf4cube/core/STM32Cube_FW_F4_V1.13.0/,Drivers/STM32F4xx_HAL_Driver/Inc Drivers/CMSIS/Device/ST/STM32F4xx/Include Drivers/CMSIS/Include Drivers/BSP/STM32F4-Discovery)",
+	ldflags="-L$(abspath $(EXTERNAL_BUILD_DIR))/third_party/bsp/stmf4cube/core/STM32Cube_FW_F4_V1.13.0/Middlewares/ST/STM32_Audio/Addons/PDM")
+
 static module core extends third_party.bsp.st_bsp_api {
 
 	option number hse_freq_hz = 8000000 /* STM32F3Discovery oscillator */
@@ -45,6 +47,7 @@ static module core extends third_party.bsp.st_bsp_api {
 		"STM32Cube_FW_F4_V1.13.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c.c",
 		"STM32Cube_FW_F4_V1.13.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.c",
 		"STM32Cube_FW_F4_V1.13.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s.c",
+		"STM32Cube_FW_F4_V1.13.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s_ex.c",
 		"STM32Cube_FW_F4_V1.13.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_irda.c",
 		"STM32Cube_FW_F4_V1.13.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_iwdg.c",
 		"STM32Cube_FW_F4_V1.13.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_lptim.c",
@@ -78,11 +81,17 @@ static module core extends third_party.bsp.st_bsp_api {
 		"STM32Cube_FW_F4_V1.13.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_wwdg.c",
 		"STM32Cube_FW_F4_V1.13.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_fmc.c",
 		"STM32Cube_FW_F4_V1.13.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_sdmmc.c",
-		"STM32Cube_FW_F4_V1.13.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c"
+		"STM32Cube_FW_F4_V1.13.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c",
+		"STM32Cube_FW_F4_V1.13.0/Drivers/BSP/STM32F4-Discovery/stm32f4_discovery.c",
+		"STM32Cube_FW_F4_V1.13.0/Drivers/BSP/STM32F4-Discovery/stm32f4_discovery_audio.c",
+		"STM32Cube_FW_F4_V1.13.0/Drivers/BSP/Components/cs43l22/cs43l22.c"
 
 
 		@IncludeExport(path="")
 		source "stm32f4xx_hal_conf.h"
+		
+		@AddPrefix("^BUILD/extbld/^MOD_PATH/STM32Cube_FW_F4_V1.13.0/Middlewares/ST/STM32_Audio/Addons/PDM")
+		source "libPDMFilter_CM4_GCC.a"
 }
 
 @BuildDepends(core)

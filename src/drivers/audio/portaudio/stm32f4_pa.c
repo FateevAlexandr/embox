@@ -12,7 +12,7 @@
 #include <linux/byteorder.h>
 #include <util/err.h>
 
-#include <stm32f4_discovery_audio_codec.h>
+#include <stm32f4_discovery_audio.h>
 #include <stm32f4xx.h>
 
 #include <framework/mod/options.h>
@@ -38,7 +38,7 @@ extern void Audio_MAL_I2S_IRQHandler(void);
 		printk("%s" fmt "\n", __VA_ARGS__); \
 	} while (0)
 
-#define STM32F4_AUDIO_I2S_DMA_IRQ (AUDIO_I2S_DMA_IRQ + 16)
+#define STM32F4_AUDIO_I2S_DMA_IRQ (I2S3_DMAx_IRQ + 16)
 
 #define MAX_BUF_LEN (160 * 6)
 #define OUTPUT_CHAN_N 2
@@ -112,7 +112,7 @@ static void *pa_thread_hnd(void *arg) {
 			strm->out_buf_empty_mask &= ~(1 << buf_index);
 			irq_unlock();
 		} else {
-			EVAL_AUDIO_Stop(CODEC_PDWN_SW);
+			BSP_AUDIO_OUT_Stop(CODEC_PDWN_SW);
 		}
 	}
 
@@ -217,9 +217,9 @@ PaError Pa_OpenStream(PaStream** stream,
 		goto err_thread_free;
 	}
 
-	EVAL_AUDIO_SetAudioInterface(AUDIO_INTERFACE_I2S);
+//	EVAL_AUDIO_SetAudioInterface(AUDIO_INTERFACE_I2S);
 
-	if (0 != EVAL_AUDIO_Init(OUTPUT_DEVICE_HEADPHONE, MODOPS_VOLUME,
+	if (0 != BSP_AUDIO_OUT_Init(OUTPUT_DEVICE_HEADPHONE, MODOPS_VOLUME,
 				sampleRate)) {
 		goto err_irq_detach;
 	}
@@ -239,8 +239,8 @@ err_out:
 PaError Pa_CloseStream(PaStream *stream) {
 	D(": %p", __func__, stream);
 
-	EVAL_AUDIO_Stop(CODEC_PDWN_SW);
-	EVAL_AUDIO_DeInit();
+	BSP_AUDIO_OUT_Stop(CODEC_PDWN_SW);
+//	EVAL_AUDIO_DeInit();
 
 	irq_detach(STM32F4_AUDIO_I2S_DMA_IRQ, NULL);
 
@@ -263,7 +263,7 @@ PaError Pa_StartStream(PaStream *stream) {
 	if (!strm->started) {
 		strm->out_buf_empty_mask = 0;
 
-		if (0 != EVAL_AUDIO_Play(strm->out_buf, strm->chan_buf_len * OUTPUT_CHAN_N * BUF_N * sizeof(uint16_t))) {
+		if (0 != BSP_AUDIO_OUT_Play(strm->out_buf, strm->chan_buf_len * OUTPUT_CHAN_N * BUF_N * sizeof(uint16_t))) {
 			return paInternalError;
 		}
 		printk("playing\n");
@@ -271,7 +271,7 @@ PaError Pa_StartStream(PaStream *stream) {
 	} else {
 		assert(strm->paused);
 
-		if (0 != EVAL_AUDIO_PauseResume(AUDIO_RESUME)) {
+		if (0 != BSP_AUDIO_OUT_Resume()) {
 			return paInternalError;
 		}
 		strm->paused = 0;
@@ -290,7 +290,7 @@ PaError Pa_StopStream(PaStream *stream) {
 
 	assert(strm->started && !strm->paused);
 
-	if (0 != EVAL_AUDIO_PauseResume(AUDIO_PAUSE)) {
+	if (0 != BSP_AUDIO_OUT_Pause()) {
 		return paInternalError;
 	}
 
@@ -304,7 +304,7 @@ void Pa_Sleep(long msec) {
 	usleep(msec * USEC_PER_MSEC);
 }
 
-uint16_t EVAL_AUDIO_GetSampleCallBack(void) {
+/*uint16_t EVAL_AUDIO_GetSampleCallBack(void) {
 	panic("getsample");
 	return -1;
 }
@@ -313,23 +313,23 @@ uint32_t Codec_TIMEOUT_UserCallback(void) {
 	panic("timeout");
 	return -1;
 }
-
+*/
 static void stm32f4_audio_irq_fill_buffer(int buf_index) {
 	pa_stream.out_buf_empty_mask |= 1 << buf_index;
 	sched_wakeup(&pa_thread->schedee);
 }
 
-void EVAL_AUDIO_HalfTransfer_CallBack(uint32_t pBuffer, uint32_t Size) {
+void BSP_AUDIO_OUT_HalfTransfer_CallBack() {
 	stm32f4_audio_irq_fill_buffer(0);
 }
 
-void EVAL_AUDIO_TransferComplete_CallBack(uint32_t pBuffer, uint32_t Size) {
+void BSP_AUDIO_OUT_TransferComplete_CallBack() {
 	stm32f4_audio_irq_fill_buffer(1);
 }
 
 static irq_return_t stm32f4_audio_i2s_dma_interrupt(unsigned int irq_num, void *dev_id) {
 	/* struct pa_strm *strm = dev_id; */
-	Audio_MAL_I2S_IRQHandler();
+//	Audio_MAL_I2S_IRQHandler();
 	return IRQ_HANDLED;
 }
 
