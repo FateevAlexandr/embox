@@ -26,6 +26,7 @@
 #include <util/bit.h>
 
 #include <drivers/audio/portaudio.h>
+#include <drivers/audio/waverecorder.h>
 
 extern void Audio_MAL_I2S_IRQHandler(void);
 
@@ -52,6 +53,7 @@ struct pa_strm {
 	PaStreamCallback *callback;
 	void *callback_data;
 	size_t chan_buf_len;
+	uint16_t mic_buf[MAX_BUF_LEN];
 	uint16_t in_buf[MAX_BUF_LEN];
 	uint16_t out_buf[MAX_BUF_LEN * OUTPUT_CHAN_N * BUF_N];
 	volatile unsigned char out_buf_empty_mask;
@@ -63,11 +65,24 @@ static struct pa_strm pa_stream;
 
 static irq_return_t stm32f4_audio_i2s_dma_interrupt(unsigned int irq_num, void *dev_id);
 
+extern uint16_t RecBuf0[MIC_FILTER_RESULT_LENGTH]; //buffer for filtered PCM data from MIC
+extern uint16_t RecBuf1[MIC_FILTER_RESULT_LENGTH]; //buffer for filtered PCM data from MIC
+extern uint8_t buffer_ready;
+
 static void strm_get_data(struct pa_strm *strm, int buf_index) {
 	uint16_t *buf;
-	int i_in, rc;
+	int i_in, rc, i;
 
-	rc = strm->callback(NULL, strm->in_buf, strm->chan_buf_len, NULL, 0, strm->callback_data);
+	for (i=0;i<(MIC_FILTER_RESULT_LENGTH*2);i++)
+	{
+		if (buffer_ready == 1) {
+			strm->mic_buf[i] = RecBuf1[i>>1];
+		} else {
+			strm->mic_buf[i] = RecBuf0[i>>1];
+		}//make pseudo-stereo
+	}
+
+	rc = strm->callback(strm->mic_buf, strm->in_buf, strm->chan_buf_len, NULL, 0, strm->callback_data);
 	if (rc == paComplete) {
 		strm->completed = 1;
 	}
@@ -223,6 +238,8 @@ PaError Pa_OpenStream(PaStream** stream,
 				sampleRate)) {
 		goto err_irq_detach;
 	}
+
+	simple_rec_start();
 
 	*stream = &pa_stream;
 	return paNoError;
