@@ -14,6 +14,9 @@
 /.dep.inc
 /.dropbox
 /.tmp
+/.settings
+.cproject
+.project
 /GNUmakefile
 /build
 /conf
