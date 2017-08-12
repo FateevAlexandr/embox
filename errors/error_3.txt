@@ -1,0 +1,396 @@
+src/drivers/audio/portaudio/stm32f4_pa.c:15:43: fatal error: stm32f4_discovery_audio_codec.h: No such file or directory
+compilation terminated.
+mk/image_lib.mk:33: recipe for target 'build/base/obj/src/drivers/audio/portaudio/stm32f4_pa.o' failed
+make[4]: *** [build/base/obj/src/drivers/audio/portaudio/stm32f4_pa.o] Error 1
+make[4]: *** Waiting for unfinished jobs....
+In file included from build/base/include/drivers/audio/mic_main.h:27:0,
+                 from src/drivers/audio/portaudio/waverecorder.c:3:
+./build/extbld/third_party/bsp/st_f4/core/STM32F4xx_Ethernet_Example/Utilities/STM32F4-Discovery/stm32f4_discovery.h:277:40: error: unknown type name 'USART_InitTypeDef'
+ void STM_EVAL_COMInit(COM_TypeDef COM, USART_InitTypeDef* USART_InitStruct);
+                                        ^
+src/drivers/audio/portaudio/waverecorder.c: In function 'DMA1_Stream3_IRQHandler':
+src/drivers/audio/portaudio/waverecorder.c:44:7: error: implicit declaration of function 'DMA_GetFlagStatus' [-Werror=implicit-function-declaration]
+   if (DMA_GetFlagStatus(DMA1_Stream3, DMA_FLAG_TCIF3) != RESET)
+       ^
+src/drivers/audio/portaudio/waverecorder.c:44:39: error: 'DMA_FLAG_TCIF3' undeclared (first use in this function)
+   if (DMA_GetFlagStatus(DMA1_Stream3, DMA_FLAG_TCIF3) != RESET)
+                                       ^
+src/drivers/audio/portaudio/waverecorder.c:44:39: note: each undeclared identifier is reported only once for each function it appears in
+src/drivers/audio/portaudio/waverecorder.c:46:5: error: implicit declaration of function 'DMA_ClearFlag' [-Werror=implicit-function-declaration]
+     DMA_ClearFlag(DMA1_Stream3, DMA_FLAG_TCIF3);
+     ^
+src/drivers/audio/portaudio/waverecorder.c: In function 'WaveRecorderInit':
+src/drivers/audio/portaudio/waverecorder.c:108:5: error: implicit declaration of function 'NVIC_PriorityGroupConfig' [-Werror=implicit-function-declaration]
+     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+     ^
+src/drivers/audio/portaudio/waverecorder.c:108:30: error: 'NVIC_PriorityGroup_4' undeclared (first use in this function)
+     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+                              ^
+src/drivers/audio/portaudio/waverecorder.c: In function 'WaveRecorderStart':
+src/drivers/audio/portaudio/waverecorder.c:134:5: error: implicit declaration of function 'I2S_Cmd' [-Werror=implicit-function-declaration]
+     I2S_Cmd(SPI2, ENABLE); 
+     ^
+src/drivers/audio/portaudio/waverecorder.c: In function 'WaveRecorder_DMA_Init':
+src/drivers/audio/portaudio/waverecorder.c:148:3: error: unknown type name 'DMA_InitTypeDef'
+   DMA_InitTypeDef DMA_InitStructure;
+   ^
+src/drivers/audio/portaudio/waverecorder.c:149:3: error: unknown type name 'NVIC_InitTypeDef'
+   NVIC_InitTypeDef NVIC_InitStructure;
+   ^
+src/drivers/audio/portaudio/waverecorder.c:151:3: error: implicit declaration of function 'RCC_AHB1PeriphClockCmd' [-Werror=implicit-function-declaration]
+   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1, ENABLE);
+   ^
+src/drivers/audio/portaudio/waverecorder.c:151:26: error: 'RCC_AHB1Periph_DMA1' undeclared (first use in this function)
+   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1, ENABLE);
+                          ^
+src/drivers/audio/portaudio/waverecorder.c:152:3: error: implicit declaration of function 'DMA_Cmd' [-Werror=implicit-function-declaration]
+   DMA_Cmd(DMA1_Stream3, DISABLE);//stream3 - spi2_rx
+   ^
+src/drivers/audio/portaudio/waverecorder.c:153:3: error: implicit declaration of function 'DMA_DeInit' [-Werror=implicit-function-declaration]
+   DMA_DeInit(DMA1_Stream3);
+   ^
+src/drivers/audio/portaudio/waverecorder.c:155:20: error: request for member 'DMA_Channel' in something not a structure or union
+   DMA_InitStructure.DMA_Channel = DMA_Channel_0; //spi2_rx
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:155:35: error: 'DMA_Channel_0' undeclared (first use in this function)
+   DMA_InitStructure.DMA_Channel = DMA_Channel_0; //spi2_rx
+                                   ^
+src/drivers/audio/portaudio/waverecorder.c:156:20: error: request for member 'DMA_PeripheralBaseAddr' in something not a structure or union
+   DMA_InitStructure.DMA_PeripheralBaseAddr = SPI2_DR_ADRESS;
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:157:20: error: request for member 'DMA_Memory0BaseAddr' in something not a structure or union
+   DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)Mic_DMA_PDM_Buffer0;
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:158:20: error: request for member 'DMA_DIR' in something not a structure or union
+   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralToMemory;
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:158:31: error: 'DMA_DIR_PeripheralToMemory' undeclared (first use in this function)
+   DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralToMemory;
+                               ^
+src/drivers/audio/portaudio/waverecorder.c:159:20: error: request for member 'DMA_BufferSize' in something not a structure or union
+   DMA_InitStructure.DMA_BufferSize = (uint32_t)INTERNAL_BUFF_SIZE;
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:160:20: error: request for member 'DMA_PeripheralInc' in something not a structure or union
+   DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:160:41: error: 'DMA_PeripheralInc_Disable' undeclared (first use in this function)
+   DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+                                         ^
+src/drivers/audio/portaudio/waverecorder.c:161:20: error: request for member 'DMA_MemoryInc' in something not a structure or union
+   DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:161:37: error: 'DMA_MemoryInc_Enable' undeclared (first use in this function)
+   DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+                                     ^
+src/drivers/audio/portaudio/waverecorder.c:162:20: error: request for member 'DMA_PeripheralDataSize' in something not a structure or union
+   DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;//16bit
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:162:46: error: 'DMA_PeripheralDataSize_HalfWord' undeclared (first use in this function)
+   DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;//16bit
+                                              ^
+src/drivers/audio/portaudio/waverecorder.c:163:20: error: request for member 'DMA_MemoryDataSize' in something not a structure or union
+   DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:163:42: error: 'DMA_MemoryDataSize_HalfWord' undeclared (first use in this function)
+   DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
+                                          ^
+src/drivers/audio/portaudio/waverecorder.c:164:20: error: request for member 'DMA_Mode' in something not a structure or union
+   DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;//<<<<<<<<<<<<
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:164:32: error: 'DMA_Mode_Circular' undeclared (first use in this function)
+   DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;//<<<<<<<<<<<<
+                                ^
+src/drivers/audio/portaudio/waverecorder.c:165:20: error: request for member 'DMA_Priority' in something not a structure or union
+   DMA_InitStructure.DMA_Priority = DMA_Priority_High;
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:165:36: error: 'DMA_Priority_High' undeclared (first use in this function)
+   DMA_InitStructure.DMA_Priority = DMA_Priority_High;
+                                    ^
+src/drivers/audio/portaudio/waverecorder.c:166:20: error: request for member 'DMA_FIFOMode' in something not a structure or union
+   DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Disable;
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:166:36: error: 'DMA_FIFOMode_Disable' undeclared (first use in this function)
+   DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Disable;
+                                    ^
+src/drivers/audio/portaudio/waverecorder.c:167:20: error: request for member 'DMA_FIFOThreshold' in something not a structure or union
+   DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_1QuarterFull;
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:167:41: error: 'DMA_FIFOThreshold_1QuarterFull' undeclared (first use in this function)
+   DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_1QuarterFull;
+                                         ^
+src/drivers/audio/portaudio/waverecorder.c:168:20: error: request for member 'DMA_MemoryBurst' in something not a structure or union
+   DMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_Single;
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:168:39: error: 'DMA_MemoryBurst_Single' undeclared (first use in this function)
+   DMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_Single;
+                                       ^
+src/drivers/audio/portaudio/waverecorder.c:169:20: error: request for member 'DMA_PeripheralBurst' in something not a structure or union
+   DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:169:43: error: 'DMA_PeripheralBurst_Single' undeclared (first use in this function)
+   DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
+                                           ^
+src/drivers/audio/portaudio/waverecorder.c:170:3: error: implicit declaration of function 'DMA_Init' [-Werror=implicit-function-declaration]
+   DMA_Init(DMA1_Stream3, &DMA_InitStructure);
+   ^
+src/drivers/audio/portaudio/waverecorder.c:172:3: error: implicit declaration of function 'DMA_DoubleBufferModeConfig' [-Werror=implicit-function-declaration]
+   DMA_DoubleBufferModeConfig(DMA1_Stream3, (uint32_t)&Mic_DMA_PDM_Buffer1, DMA_Memory_0);//0 buffer is the first
+   ^
+src/drivers/audio/portaudio/waverecorder.c:172:76: error: 'DMA_Memory_0' undeclared (first use in this function)
+   DMA_DoubleBufferModeConfig(DMA1_Stream3, (uint32_t)&Mic_DMA_PDM_Buffer1, DMA_Memory_0);//0 buffer is the first
+                                                                            ^
+src/drivers/audio/portaudio/waverecorder.c:174:3: error: implicit declaration of function 'DMA_ITConfig' [-Werror=implicit-function-declaration]
+   DMA_ITConfig(DMA1_Stream3, DMA_IT_TC, ENABLE);
+   ^
+src/drivers/audio/portaudio/waverecorder.c:174:30: error: 'DMA_IT_TC' undeclared (first use in this function)
+   DMA_ITConfig(DMA1_Stream3, DMA_IT_TC, ENABLE);
+                              ^
+src/drivers/audio/portaudio/waverecorder.c:175:3: error: implicit declaration of function 'DMA_DoubleBufferModeCmd' [-Werror=implicit-function-declaration]
+   DMA_DoubleBufferModeCmd(DMA1_Stream3, ENABLE);
+   ^
+src/drivers/audio/portaudio/waverecorder.c:177:21: error: request for member 'NVIC_IRQChannel' in something not a structure or union
+   NVIC_InitStructure.NVIC_IRQChannel = DMA1_Stream3_IRQn;
+                     ^
+src/drivers/audio/portaudio/waverecorder.c:178:21: error: request for member 'NVIC_IRQChannelPreemptionPriority' in something not a structure or union
+   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 10;
+                     ^
+src/drivers/audio/portaudio/waverecorder.c:179:21: error: request for member 'NVIC_IRQChannelSubPriority' in something not a structure or union
+   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 10;
+                     ^
+src/drivers/audio/portaudio/waverecorder.c:180:21: error: request for member 'NVIC_IRQChannelCmd' in something not a structure or union
+   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+                     ^
+src/drivers/audio/portaudio/waverecorder.c:181:3: error: implicit declaration of function 'NVIC_Init' [-Werror=implicit-function-declaration]
+   NVIC_Init(&NVIC_InitStructure);
+   ^
+src/drivers/audio/portaudio/waverecorder.c: In function 'WaveRecorder_GPIO_Init':
+src/drivers/audio/portaudio/waverecorder.c:194:3: error: unknown type name 'GPIO_InitTypeDef'
+   GPIO_InitTypeDef GPIO_InitStructure;
+   ^
+In file included from src/drivers/audio/portaudio/waverecorder.c:5:0:
+build/base/include/drivers/audio/waverecorder.h:36:43: error: 'RCC_AHB1Periph_GPIOB' undeclared (first use in this function)
+ #define SPI_SCK_GPIO_CLK                  RCC_AHB1Periph_GPIOB
+                                           ^
+src/drivers/audio/portaudio/waverecorder.c:197:26: note: in expansion of macro 'SPI_SCK_GPIO_CLK'
+   RCC_AHB1PeriphClockCmd(SPI_SCK_GPIO_CLK | SPI_MOSI_GPIO_CLK, ENABLE);
+                          ^
+build/base/include/drivers/audio/waverecorder.h:42:43: error: 'RCC_AHB1Periph_GPIOC' undeclared (first use in this function)
+ #define SPI_MOSI_GPIO_CLK                 RCC_AHB1Periph_GPIOC
+                                           ^
+src/drivers/audio/portaudio/waverecorder.c:197:45: note: in expansion of macro 'SPI_MOSI_GPIO_CLK'
+   RCC_AHB1PeriphClockCmd(SPI_SCK_GPIO_CLK | SPI_MOSI_GPIO_CLK, ENABLE);
+                                             ^
+src/drivers/audio/portaudio/waverecorder.c:202:21: error: request for member 'GPIO_Mode' in something not a structure or union
+   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+                     ^
+src/drivers/audio/portaudio/waverecorder.c:202:34: error: 'GPIO_Mode_AF' undeclared (first use in this function)
+   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+                                  ^
+src/drivers/audio/portaudio/waverecorder.c:203:21: error: request for member 'GPIO_OType' in something not a structure or union
+   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+                     ^
+src/drivers/audio/portaudio/waverecorder.c:203:35: error: 'GPIO_OType_PP' undeclared (first use in this function)
+   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+                                   ^
+src/drivers/audio/portaudio/waverecorder.c:204:21: error: request for member 'GPIO_PuPd' in something not a structure or union
+   GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
+                     ^
+src/drivers/audio/portaudio/waverecorder.c:204:35: error: 'GPIO_PuPd_NOPULL' undeclared (first use in this function)
+   GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
+                                   ^
+src/drivers/audio/portaudio/waverecorder.c:205:21: error: request for member 'GPIO_Speed' in something not a structure or union
+   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+                     ^
+src/drivers/audio/portaudio/waverecorder.c:205:35: error: 'GPIO_Speed_50MHz' undeclared (first use in this function)
+   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+                                   ^
+src/drivers/audio/portaudio/waverecorder.c:208:21: error: request for member 'GPIO_Pin' in something not a structure or union
+   GPIO_InitStructure.GPIO_Pin = SPI_SCK_PIN;
+                     ^
+In file included from src/drivers/audio/portaudio/waverecorder.c:5:0:
+build/base/include/drivers/audio/waverecorder.h:34:43: error: 'GPIO_Pin_10' undeclared (first use in this function)
+ #define SPI_SCK_PIN                       GPIO_Pin_10
+                                           ^
+src/drivers/audio/portaudio/waverecorder.c:208:33: note: in expansion of macro 'SPI_SCK_PIN'
+   GPIO_InitStructure.GPIO_Pin = SPI_SCK_PIN;
+                                 ^
+src/drivers/audio/portaudio/waverecorder.c:209:3: error: implicit declaration of function 'GPIO_Init' [-Werror=implicit-function-declaration]
+   GPIO_Init(SPI_SCK_GPIO_PORT, &GPIO_InitStructure);
+   ^
+src/drivers/audio/portaudio/waverecorder.c:212:3: error: implicit declaration of function 'GPIO_PinAFConfig' [-Werror=implicit-function-declaration]
+   GPIO_PinAFConfig(SPI_SCK_GPIO_PORT, SPI_SCK_SOURCE, SPI_SCK_AF);
+   ^
+In file included from src/drivers/audio/portaudio/waverecorder.c:5:0:
+build/base/include/drivers/audio/waverecorder.h:37:43: error: 'GPIO_PinSource10' undeclared (first use in this function)
+ #define SPI_SCK_SOURCE                    GPIO_PinSource10
+                                           ^
+src/drivers/audio/portaudio/waverecorder.c:212:39: note: in expansion of macro 'SPI_SCK_SOURCE'
+   GPIO_PinAFConfig(SPI_SCK_GPIO_PORT, SPI_SCK_SOURCE, SPI_SCK_AF);
+                                       ^
+build/base/include/drivers/audio/waverecorder.h:38:43: error: 'GPIO_AF_SPI2' undeclared (first use in this function)
+ #define SPI_SCK_AF                        GPIO_AF_SPI2
+                                           ^
+src/drivers/audio/portaudio/waverecorder.c:212:55: note: in expansion of macro 'SPI_SCK_AF'
+   GPIO_PinAFConfig(SPI_SCK_GPIO_PORT, SPI_SCK_SOURCE, SPI_SCK_AF);
+                                                       ^
+src/drivers/audio/portaudio/waverecorder.c:215:21: error: request for member 'GPIO_Pin' in something not a structure or union
+   GPIO_InitStructure.GPIO_Pin =  SPI_MOSI_PIN;
+                     ^
+In file included from src/drivers/audio/portaudio/waverecorder.c:5:0:
+build/base/include/drivers/audio/waverecorder.h:40:43: error: 'GPIO_Pin_3' undeclared (first use in this function)
+ #define SPI_MOSI_PIN                      GPIO_Pin_3
+                                           ^
+src/drivers/audio/portaudio/waverecorder.c:215:34: note: in expansion of macro 'SPI_MOSI_PIN'
+   GPIO_InitStructure.GPIO_Pin =  SPI_MOSI_PIN;
+                                  ^
+build/base/include/drivers/audio/waverecorder.h:43:43: error: 'GPIO_PinSource3' undeclared (first use in this function)
+ #define SPI_MOSI_SOURCE                   GPIO_PinSource3
+                                           ^
+src/drivers/audio/portaudio/waverecorder.c:217:40: note: in expansion of macro 'SPI_MOSI_SOURCE'
+   GPIO_PinAFConfig(SPI_MOSI_GPIO_PORT, SPI_MOSI_SOURCE, SPI_MOSI_AF);
+                                        ^
+src/drivers/audio/portaudio/waverecorder.c: In function 'WaveRecorder_SPI_Init':
+src/drivers/audio/portaudio/waverecorder.c:227:3: error: unknown type name 'I2S_InitTypeDef'
+   I2S_InitTypeDef I2S_InitStructure;
+   ^
+src/drivers/audio/portaudio/waverecorder.c:230:3: error: implicit declaration of function 'RCC_APB1PeriphClockCmd' [-Werror=implicit-function-declaration]
+   RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2,ENABLE);
+   ^
+src/drivers/audio/portaudio/waverecorder.c:230:26: error: 'RCC_APB1Periph_SPI2' undeclared (first use in this function)
+   RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2,ENABLE);
+                          ^
+src/drivers/audio/portaudio/waverecorder.c:233:3: error: implicit declaration of function 'SPI_I2S_DeInit' [-Werror=implicit-function-declaration]
+   SPI_I2S_DeInit(SPI2);
+   ^
+src/drivers/audio/portaudio/waverecorder.c:234:20: error: request for member 'I2S_AudioFreq' in something not a structure or union
+   I2S_InitStructure.I2S_AudioFreq = Freq/2;//i2s two channel mode
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:235:20: error: request for member 'I2S_Standard' in something not a structure or union
+   I2S_InitStructure.I2S_Standard = I2S_Standard_LSB;
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:235:36: error: 'I2S_Standard_LSB' undeclared (first use in this function)
+   I2S_InitStructure.I2S_Standard = I2S_Standard_LSB;
+                                    ^
+src/drivers/audio/portaudio/waverecorder.c:236:20: error: request for member 'I2S_DataFormat' in something not a structure or union
+   I2S_InitStructure.I2S_DataFormat = I2S_DataFormat_16b;
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:236:38: error: 'I2S_DataFormat_16b' undeclared (first use in this function)
+   I2S_InitStructure.I2S_DataFormat = I2S_DataFormat_16b;
+                                      ^
+src/drivers/audio/portaudio/waverecorder.c:237:20: error: request for member 'I2S_CPOL' in something not a structure or union
+   I2S_InitStructure.I2S_CPOL = I2S_CPOL_High;
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:237:32: error: 'I2S_CPOL_High' undeclared (first use in this function)
+   I2S_InitStructure.I2S_CPOL = I2S_CPOL_High;
+                                ^
+src/drivers/audio/portaudio/waverecorder.c:238:20: error: request for member 'I2S_Mode' in something not a structure or union
+   I2S_InitStructure.I2S_Mode = I2S_Mode_MasterRx;
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:238:32: error: 'I2S_Mode_MasterRx' undeclared (first use in this function)
+   I2S_InitStructure.I2S_Mode = I2S_Mode_MasterRx;
+                                ^
+src/drivers/audio/portaudio/waverecorder.c:239:20: error: request for member 'I2S_MCLKOutput' in something not a structure or union
+   I2S_InitStructure.I2S_MCLKOutput = I2S_MCLKOutput_Disable;
+                    ^
+src/drivers/audio/portaudio/waverecorder.c:239:38: error: 'I2S_MCLKOutput_Disable' undeclared (first use in this function)
+   I2S_InitStructure.I2S_MCLKOutput = I2S_MCLKOutput_Disable;
+                                      ^
+src/drivers/audio/portaudio/waverecorder.c:241:3: error: implicit declaration of function 'I2S_Init' [-Werror=implicit-function-declaration]
+   I2S_Init(SPI2, &I2S_InitStructure);
+   ^
+src/drivers/audio/portaudio/waverecorder.c:243:3: error: implicit declaration of function 'SPI_I2S_DMACmd' [-Werror=implicit-function-declaration]
+   SPI_I2S_DMACmd(SPI2, SPI_I2S_DMAReq_Rx, ENABLE);//enable DMA
+   ^
+src/drivers/audio/portaudio/waverecorder.c:243:24: error: 'SPI_I2S_DMAReq_Rx' undeclared (first use in this function)
+   SPI_I2S_DMACmd(SPI2, SPI_I2S_DMAReq_Rx, ENABLE);//enable DMA
+                        ^
+src/drivers/audio/portaudio/waverecorder.c: In function 'WaveRecorderStop':
+src/drivers/audio/portaudio/waverecorder.c:282:5: error: implicit declaration of function 'TIM_Cmd' [-Werror=implicit-function-declaration]
+     TIM_Cmd(TIM6, DISABLE);
+     ^
+src/drivers/audio/portaudio/waverecorder.c: At top level:
+cc1: error: unrecognized command line option '-Wno-nonnull-compare' [-Werror]
+cc1: error: unrecognized command line option '-Wno-misleading-indentation' [-Werror]
+cc1: all warnings being treated as errors
+mk/image_lib.mk:33: recipe for target 'build/base/obj/src/drivers/audio/portaudio/waverecorder.o' failed
+make[4]: *** [build/base/obj/src/drivers/audio/portaudio/waverecorder.o] Error 1
+mk/build.mk:19: recipe for target 'build' failed
+make[3]: *** [build] Error 2
+mk/load.mk:41: recipe for target 'build' failed
+make[2]: *** [build] Error 2
+mk/main.mk:30: recipe for target 'build' failed
+make[1]: *** [build] Error 2
+Makefile:37: recipe for target 'all' failed
+make: *** [all] Error 2
+vagrant@vagrant:~/Documents/embox_os/embox_pjsip_mic_git$ sudo apt-get install regexxer
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following packages were automatically installed and are no longer required:
+  libllvm3.8 libmircommon5 libpango1.0-0 libpangox-1.0-0 linux-headers-4.4.0-87 linux-headers-4.4.0-87-generic linux-image-4.4.0-21-generic linux-image-4.4.0-87-generic
+  linux-image-extra-4.4.0-21-generic linux-image-extra-4.4.0-87-generic ubuntu-core-launcher
+Use 'sudo apt autoremove' to remove them.
+The following additional packages will be installed:
+  libatkmm-1.6-1v5 libcairomm-1.0-1v5 libgconfmm-2.6-1v5 libglademm-2.4-1v5 libglibmm-2.4-1v5 libgtkmm-2.4-1v5 libpangomm-1.4-1v5 libsigc++-2.0-0v5
+The following NEW packages will be installed:
+  libatkmm-1.6-1v5 libcairomm-1.0-1v5 libgconfmm-2.6-1v5 libglademm-2.4-1v5 libglibmm-2.4-1v5 libgtkmm-2.4-1v5 libpangomm-1.4-1v5 libsigc++-2.0-0v5 regexxer
+0 upgraded, 9 newly installed, 0 to remove and 0 not upgraded.
+Need to get 1,486 kB of archives.
+After this operation, 9,097 kB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://us.archive.ubuntu.com/ubuntu xenial/main amd64 libsigc++-2.0-0v5 amd64 2.6.2-1 [11.1 kB]
+Get:2 http://us.archive.ubuntu.com/ubuntu xenial/main amd64 libglibmm-2.4-1v5 amd64 2.46.3-1 [460 kB]
+Get:3 http://us.archive.ubuntu.com/ubuntu xenial/main amd64 libatkmm-1.6-1v5 amd64 2.24.2-1 [61.7 kB]
+Get:4 http://us.archive.ubuntu.com/ubuntu xenial/main amd64 libcairomm-1.0-1v5 amd64 1.12.0-1 [41.6 kB]
+Get:5 http://us.archive.ubuntu.com/ubuntu xenial/universe amd64 libgconfmm-2.6-1v5 amd64 2.28.3-0ubuntu3 [23.9 kB]
+Get:6 http://us.archive.ubuntu.com/ubuntu xenial/main amd64 libpangomm-1.4-1v5 amd64 2.38.1-1 [42.0 kB]
+Get:7 http://us.archive.ubuntu.com/ubuntu xenial/main amd64 libgtkmm-2.4-1v5 amd64 1:2.24.4-2 [671 kB]
+Get:8 http://us.archive.ubuntu.com/ubuntu xenial/universe amd64 libglademm-2.4-1v5 amd64 2.6.7-5 [18.1 kB]
+Get:9 http://us.archive.ubuntu.com/ubuntu xenial/universe amd64 regexxer amd64 0.9-6ubuntu3 [157 kB]
+Fetched 1,486 kB in 1s (1,034 kB/s)
+Selecting previously unselected package libsigc++-2.0-0v5:amd64.
+(Reading database ... 226496 files and directories currently installed.)
+Preparing to unpack .../libsigc++-2.0-0v5_2.6.2-1_amd64.deb ...
+Unpacking libsigc++-2.0-0v5:amd64 (2.6.2-1) ...
+Selecting previously unselected package libglibmm-2.4-1v5:amd64.
+Preparing to unpack .../libglibmm-2.4-1v5_2.46.3-1_amd64.deb ...
+Unpacking libglibmm-2.4-1v5:amd64 (2.46.3-1) ...
+Selecting previously unselected package libatkmm-1.6-1v5:amd64.
+Preparing to unpack .../libatkmm-1.6-1v5_2.24.2-1_amd64.deb ...
+Unpacking libatkmm-1.6-1v5:amd64 (2.24.2-1) ...
+Selecting previously unselected package libcairomm-1.0-1v5:amd64.
+Preparing to unpack .../libcairomm-1.0-1v5_1.12.0-1_amd64.deb ...
+Unpacking libcairomm-1.0-1v5:amd64 (1.12.0-1) ...
+Selecting previously unselected package libgconfmm-2.6-1v5.
+Preparing to unpack .../libgconfmm-2.6-1v5_2.28.3-0ubuntu3_amd64.deb ...
+Unpacking libgconfmm-2.6-1v5 (2.28.3-0ubuntu3) ...
+Selecting previously unselected package libpangomm-1.4-1v5:amd64.
+Preparing to unpack .../libpangomm-1.4-1v5_2.38.1-1_amd64.deb ...
+Unpacking libpangomm-1.4-1v5:amd64 (2.38.1-1) ...
+Selecting previously unselected package libgtkmm-2.4-1v5:amd64.
+Preparing to unpack .../libgtkmm-2.4-1v5_1%3a2.24.4-2_amd64.deb ...
+Unpacking libgtkmm-2.4-1v5:amd64 (1:2.24.4-2) ...
+Selecting previously unselected package libglademm-2.4-1v5.
+Preparing to unpack .../libglademm-2.4-1v5_2.6.7-5_amd64.deb ...
+Unpacking libglademm-2.4-1v5 (2.6.7-5) ...
+Selecting previously unselected package regexxer.
+Preparing to unpack .../regexxer_0.9-6ubuntu3_amd64.deb ...
+Unpacking regexxer (0.9-6ubuntu3) ...
+Processing triggers for libc-bin (2.23-0ubuntu9) ...
+Processing triggers for hicolor-icon-theme (0.15-0ubuntu1) ...
+Processing triggers for gconf2 (3.2.6-3ubuntu6) ...
+Processing triggers for man-db (2.7.5-1) ...
+Processing triggers for desktop-file-utils (0.22-1ubuntu5.1) ...
+Processing triggers for mime-support (3.59ubuntu1) ...
+Setting up libsigc++-2.0-0v5:amd64 (2.6.2-1) ...
+Setting up libglibmm-2.4-1v5:amd64 (2.46.3-1) ...
+Setting up libatkmm-1.6-1v5:amd64 (2.24.2-1) ...
+Setting up libcairomm-1.0-1v5:amd64 (1.12.0-1) ...
+Setting up libgconfmm-2.6-1v5 (2.28.3-0ubuntu3) ...
+Setting up libpangomm-1.4-1v5:amd64 (2.38.1-1) ...
+Setting up libgtkmm-2.4-1v5:amd64 (1:2.24.4-2) ...
+Setting up libglademm-2.4-1v5 (2.6.7-5) ...
+Setting up regexxer (0.9-6ubuntu3) ...
+Processing triggers for libc-bin (2.23-0ubuntu9) ...
+vagrant@vagrant:~/Documents/embox_os/embox_pjsip_mic_git$ 
+

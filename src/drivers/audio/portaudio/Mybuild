@@ -19,33 +19,14 @@ module stm32f4_pa extends portaudio_api {
 	option number sample_rate
 	option number buf_cnt=0x4
 	
-
-
-
-
-@IncludeExport(path="drivers/audio")
-	source "pdm_filter.h"	
-	@AddPrefix("drivers/audio/portaudio")
-	source "libPDMFilter_GCC.a"
-	
-	@IncludeExport(path="drivers/audio")
-	source "waverecorder.h"	
-	
-	
-	@IncludeExport(path="drivers/audio")
-	source "mic_main.h"		
 	@IncludePath("$(EXTERNAL_BUILD_DIR)/third_party/bsp/st_f4/core/STM32F4xx_Ethernet_Example/Utilities/STM32F4-Discovery/")
-	source "waverecorder.c"
 	source "stm32f4_pa.c"
 
-
-
-
-
-
 	@IncludeExport(path="drivers/audio")
+	source "waverecorder.h"
 	source "portaudio.h"
-	
+	source "pdm_filter.h"
+
 	depends third_party.bsp.st_f4.core
 	depends embox.util.DList
 	depends embox.compat.libc.assert
