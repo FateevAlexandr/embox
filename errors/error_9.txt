@@ -1,0 +1,19 @@
+rver/src/system_stm32f4xx.o build/base/gen/../../extbld/third_party/bsp/st_f4/core/STM32F4xx_Ethernet_Example/./Project/Standalone/httpserver/src/system_stm32f4xx.c
+arm-none-eabi-ld -r -o build/base/obj/module/embox/driver/audio/stm32f4_pa.o -N -g \
+	./build/base/obj/src/drivers/audio/portaudio/stm32f4_pa.o \
+	--whole-archive \
+	./build/base/obj/src/drivers/audio/portaudio/drivers/audio/portaudio/libPDMFilter_GCC.a \
+	--no-whole-archive
+arm-none-eabi-ld: cannot find ./build/base/obj/src/drivers/audio/portaudio/drivers/audio/portaudio/libPDMFilter_GCC.a: No such file or directory
+mk/image2.mk:109: recipe for target 'build/base/obj/module/embox/driver/audio/stm32f4_pa.o' failed
+make[4]: *** [build/base/obj/module/embox/driver/audio/stm32f4_pa.o] Error 1
+make[4]: *** Waiting for unfinished jobs....
+mk/build.mk:19: recipe for target 'build' failed
+make[3]: *** [build] Error 2
+mk/load.mk:41: recipe for target 'build' failed
+make[2]: *** [build] Error 2
+mk/main.mk:30: recipe for target 'build' failed
+make[1]: *** [build] Error 2
+Makefile:37: recipe for target 'all' failed
+make: *** [all] Error 2
+
