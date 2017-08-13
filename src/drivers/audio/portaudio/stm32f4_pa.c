@@ -66,9 +66,9 @@ static struct pa_strm pa_stream;
 
 static irq_return_t stm32f4_audio_i2s_dma_interrupt(unsigned int irq_num, void *dev_id);
 
-extern uint16_t RecBuf0[MIC_FILTER_RESULT_LENGTH]; //buffer for filtered PCM data from MIC
-extern uint16_t RecBuf1[MIC_FILTER_RESULT_LENGTH]; //buffer for filtered PCM data from MIC
-extern uint8_t buffer_ready;
+uint16_t RecBuf0[MIC_FILTER_RESULT_LENGTH]; //buffer for filtered PCM data from MIC
+uint16_t RecBuf1[MIC_FILTER_RESULT_LENGTH]; //buffer for filtered PCM data from MIC
+uint8_t buffer_ready;
 
 static void strm_get_data(struct pa_strm *strm, int buf_index) {
 	uint16_t *buf;
