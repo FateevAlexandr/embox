@@ -26,7 +26,7 @@
 #include <util/bit.h>
 
 #include <drivers/audio/portaudio.h>
-#include <drivers/audio/waverecorder.h>
+#include <drivers/audio/portaudio/waverecorder.h>
 
 
 extern void Audio_MAL_I2S_IRQHandler(void);
