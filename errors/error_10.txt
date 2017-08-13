@@ -1,0 +1,17 @@
+EMBOX_GCC_LINK=full ./mk/extbld/arch-embox-gcc ./mk/extbld/toolchain_test.c -o ./build/base/obj/toolchain_test
+./build/base/obj/embox.o: In function `pa_thread_hnd':
+src/drivers/audio/portaudio/stm32f4_pa.c:133: undefined reference to `buffer_ready'
+src/drivers/audio/portaudio/stm32f4_pa.c:133: undefined reference to `RecBuf0'
+src/drivers/audio/portaudio/stm32f4_pa.c:133: undefined reference to `RecBuf1'
+collect2: error: ld returned 1 exit status
+mk/extbld/toolchain.mk:76: recipe for target 'build/base/obj/toolchain_test' failed
+make[4]: *** [build/base/obj/toolchain_test] Error 1
+mk/build.mk:19: recipe for target 'build' failed
+make[3]: *** [build] Error 2
+mk/load.mk:41: recipe for target 'build' failed
+make[2]: *** [build] Error 2
+mk/main.mk:30: recipe for target 'build' failed
+make[1]: *** [build] Error 2
+Makefile:37: recipe for target 'all' failed
+make: *** [all] Error 2
+
