@@ -1,0 +1,14 @@
+src/drivers/audio/portaudio/stm32f4_pa.c:29:40: fatal error: drivers/audio/waverecorder.h: No such file or directory
+compilation terminated.
+mk/image_lib.mk:33: recipe for target 'build/base/obj/src/drivers/audio/portaudio/stm32f4_pa.o' failed
+make[4]: *** [build/base/obj/src/drivers/audio/portaudio/stm32f4_pa.o] Error 1
+make[4]: *** Waiting for unfinished jobs....
+mk/build.mk:19: recipe for target 'build' failed
+make[3]: *** [build] Error 2
+mk/load.mk:41: recipe for target 'build' failed
+make[2]: *** [build] Error 2
+mk/main.mk:30: recipe for target 'build' failed
+make[1]: *** [build] Error 2
+Makefile:37: recipe for target 'all' failed
+make: *** [all] Error 2
+
