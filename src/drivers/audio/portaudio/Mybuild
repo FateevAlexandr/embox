@@ -20,22 +20,22 @@ module stm32f4_pa extends portaudio_api {
 	option number buf_cnt=0x4
 
 
-	@AddPrefix("drivers/audio/portaudio")
+/*	@AddPrefix("drivers/audio/portaudio")
 	source "libPDMFilter_GCC.a"
 
 	@IncludeExport(path="drivers/audio/portaudio")
-	source "waverecorder.h"
-	
+	source "waverecorder.c"
+	*/
 
 	
 	@IncludePath("$(EXTERNAL_BUILD_DIR)/third_party/bsp/st_f4/core/STM32F4xx_Ethernet_Example/Utilities/STM32F4-Discovery/")
 	source "stm32f4_pa.c"
 
-	@IncludeExport(path="drivers/audio")
+/*	@IncludeExport(path="drivers/audio")
 	source "mic_main.h"
 	source "portaudio.h"
 	source "pdm_filter.h"
-
+*/
 
 
 

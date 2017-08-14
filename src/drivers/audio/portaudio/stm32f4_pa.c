@@ -13,7 +13,7 @@
 #include <util/err.h>
 
 #include <stm32f4_discovery_audio_codec.h>
-#include <stm32f4xx.h>
+//#include <stm32f4xx.h>
 
 #include <framework/mod/options.h>
 #include <kernel/irq.h>
@@ -53,8 +53,8 @@ struct pa_strm {
 	int sample_format;
 	PaStreamCallback *callback;
 	void *callback_data;
-	uint16_t mic_buf[MAX_BUF_LEN];
 	size_t chan_buf_len;
+	uint16_t mic_buf[MAX_BUF_LEN];
 	uint16_t in_buf[MAX_BUF_LEN];
 	uint16_t out_buf[MAX_BUF_LEN * OUTPUT_CHAN_N * BUF_N];
 	volatile unsigned char out_buf_empty_mask;
@@ -66,9 +66,9 @@ static struct pa_strm pa_stream;
 
 static irq_return_t stm32f4_audio_i2s_dma_interrupt(unsigned int irq_num, void *dev_id);
 
-uint16_t RecBuf0[MIC_FILTER_RESULT_LENGTH]; //buffer for filtered PCM data from MIC
-uint16_t RecBuf1[MIC_FILTER_RESULT_LENGTH]; //buffer for filtered PCM data from MIC
-uint8_t buffer_ready;
+extern uint16_t RecBuf0[MIC_FILTER_RESULT_LENGTH]; //buffer for filtered PCM data from MIC
+extern uint16_t RecBuf1[MIC_FILTER_RESULT_LENGTH]; //buffer for filtered PCM data from MIC
+extern uint8_t buffer_ready;
 
 static void strm_get_data(struct pa_strm *strm, int buf_index) {
 	uint16_t *buf;
@@ -241,6 +241,8 @@ PaError Pa_OpenStream(PaStream** stream,
 				sampleRate)) {
 		goto err_irq_detach;
 	}
+	
+	simple_rec_start();
 
 	*stream = &pa_stream;
 	return paNoError;

@@ -1,0 +1,259 @@
+Собралось, но падает во время звонка.
+
+Welcome to Embox and have a lot 
+embox>
+Embox kernel start
+runlevel: init level is 0
+        unit: initializing embox.driver.serial.stm_usart: done
+        unit: initializing embox.driver.clock.cortexm_systick: done
+runlevel: init level is 1
+        unit: initializing embox.mem.static_heap: done
+        unit: initializing embox.kernel.task.task_resource: done
+        unit: initializing embox.kernel.task.kernel_task: done
+        unit: initializing embox.kernel.time.kernel_time: done
+        unit: initializing embox.kernel.time.jiffies: done
+        unit: initializing embox.kernel.sched.sched: done
+        unit: initializing embox.kernel.time.timekeeper: done
+        unit: initializing embox.fs.driver.fs_driver: done
+        unit: initializing embox.fs.node: done
+        unit: initializing embox.kernel.time.timer_handler: done
+        unit: initializing embox.net.neighbour: done
+        unit: initializing embox.net.net_entry: done
+        unit: initializing embox.driver.tty.serial_oldfs: done
+        unit: initializing embox.driver.net.stm32f4_eth: done
+        unit: initializing embox.kernel.sched.sched_ticker_preempt: done
+        unit: initializing embox.mem.static_heap2: done
+        unit: initializing embox.cmd.shell: done
+runlevel: init level is 2
+        unit: initializing embox.init.start_script: 
+Started shell [diag_shell] on device []
+loading start script:
+> ifconfig lo 127.0.0.1 netmask 255.0.0.0 up 
+lo: unknown interface
+ifconfig: Command returned with code -19: No such device
+> route add 127.0.0.0 netmask 255.0.0.0 lo 
+Unknown interface: lo.
+route: Command returned with code -19: No such device
+> ifconfig eth0 192.168.1.128 netmask 255.255.255.0 up 
+> route add 192.168.1.0 netmask 255.255.255.0 eth0 
+
+Welcome to Embox and have a lot 
+embox>pjsip_simpleua 
+of fun!00:00:03.360        critsec !...........................................d
+00:00:03.371 os_core_unix.c !pjlib 2.2.1 for POSIX initialized
+00:00:03.377 sip_endpoint.c  Creating endpoint instance...
+00:00:03.386  ept0x100004a4  Mutex created
+00:00:03.390 edpt0x10006664  Mutex created
+00:00:03.394  mtx0x10006a64  Mutex created
+00:00:03.398  mtx0x10006c64  Mutex created
+00:00:03.402  mtx0x10006e64  Mutex created
+00:00:03.406  mtx0x10007064  Mutex created
+00:00:03.409  mtx0x10007264  Mutex created
+00:00:03.413  mtx0x10007464  Mutex created
+00:00:03.417  mtx0x10007664  Mutex created
+00:00:03.421  mtx0x10007864  Mutex created
+00:00:03.425  mtx0x10007a64  Mutex created
+00:00:03.429  ioq0x10007b24  Mutex created
+00:00:03.432          pjlib  select() I/O Queue created (0x10006724)
+00:00:03.438 sip_endpoint.c  Module "mod-msg-print" registered
+00:00:03.444        hashtbl  hash table 0x10007fd4 created from pool pooldbg
+00:00:03.451 tmgr0x10008124  Mutex created
+00:00:03.455  atm0x100081e4  Mutex created
+00:00:03.458 sip_transport.  Transport manager created.
+00:00:03.464  atm0x10008424  Mutex created
+00:00:03.468  udp0x100084e4  Mutex created
+00:00:03.472        hashtbl  0x10007fd4: New p_entry 0x100085fc created, pool u7
+00:00:03.481        hashtbl  0x10007fd4: p_entry 0x100085fc value set to 0x10004
+00:00:03.488          udp%p  SIP UDP transport started, published address is 190
+00:00:03.497        hashtbl  hash table 0x100080dc created from pool pooldbg
+00:00:03.503       tsxlayer  Mutex created
+00:00:03.507 sip_endpoint.c  Module "mod-tsx-layer" registered
+00:00:03.513 sip_endpoint.c  Module "mod-stateful-util" registered
+00:00:03.519   ua0x1000a9a4  Mutex created
+00:00:03.522        hashtbl  hash table 0x1000aa1c created from pool pooldbg
+00:00:03.529 sip_endpoint.c  Module "mod-ua" registered
+00:00:03.534 sip_endpoint.c  Module "mod-invite" registered
+00:00:03.540 sip_endpoint.c  Module "mod-100rel" registered
+00:00:03.545 sip_endpoint.c  Module "mod-simpleua" registered
+00:00:03.550 sip_endpoint.c  Module "mod-msg-log" registered
+Pa_Initialize
+00:00:03.557       pa_dev.c  PortAudio sound library initialized, status=0
+00:00:03.564       pa_dev.c  PortAudio host api count=1
+00:00:03.569       pa_dev.c  Sound device count=1
+Pa_GetDeviceInfo: 0 = 0x080581e8
+00:00:03.576      codec-mgr  Mutex created
+00:00:03.580  mtx0x1000c5e4  Mutex created
+00:00:03.584  mtx0x1000c7e4  Mutex created
+00:00:03.588  mtx0x1000c9e4  Mutex created
+00:00:03.592  mtx0x1000cbe4  Mutex created
+00:00:03.596  mtx0x1000cde4  Mutex created
+00:00:03.599  mtx0x1000cfe4  Mutex created
+00:00:03.603  mtx0x1000d1e4  Mutex created
+00:00:03.607  mtx0x1000d3e4  Mutex created
+00:00:03.611  mtx0x1000d5e4  Mutex created
+00:00:03.615  ioq0x1000d6a4  Mutex created
+00:00:03.619          pjlib  select() I/O Queue created (0x1000c2a4)
+0000:00:03.625    00:00:03.625          media !Thread started
+: started
+!Thr      media !Thread started
+00:00:03.630           g611 !Mutex created
+00:00:03.636     simpleua.c  Ready to accept incoming calls...
+00:00:15.906 sip_endpoint.c  Processing incoming message: Request msg INVITE/cs)
+00:00:15.915     simpleua.c  .RX 758 bytes Request msg INVITE/cseq=6189 (rdata0:
+INVITE sip:test@192.168.1.128 SIP/2.0
+Via: SIP/2.0/UDP 192.168.1.152:5060;rport;branch=z9hG4bKPj5c91c2c3-a703-4974-a46
+Max-Forwards: 70
+From: <sip:simpleuac@192.168.1.152>;tag=e2d3830d-75a4-4eb9-811c-437b4b393fc5
+To: sip:test@192.168.1.128
+Contact: <sip:simpleuac@192.168.1.152:5060>
+Call-ID: 1754eb0e-b61d-43cf-9f34-b1423a6ac831
+CSeq: 6189 INVITE
+Allow: INVITE, ACK, BYE, CANCEL, UPDATE
+Supported: 
+Content-Type: application/sdp
+Content-Length:   278
+
+v=0
+o=- 3711706164 3711706164 IN IP4 192.168.1.152
+s=pjmedia
+t=0 0
+m=audio 4000 RTP/AVP 0 8 96
+c=IN IP4 192.168.1.152
+b=TIAS:64000
+a=rtcp:4001 IN IP4 192.168.1.152
+a=sendrecv
+a=rtpmap:0 PCMU/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:96 telephone-event/8000
+a=fmtp:96 0-16
+
+--end msg--
+00:00:15.996  dlg0x1000eae4  .Mutex created
+00:00:16.002  atm0x1000f9a4  .Mutex created
+00:00:16.006 glck0x1000fa64  .Mutex created
+00:00:16.010  tsx0x1000f6a4  .Mutex created
+00:00:16.014  tsx0x1000f6a4  .tsx_key=s$z9hG4bKPj5c91c2c3-a703-4974-a450-b4b0446
+00:00:16.021        hashtbl  .0x100080dc: New p_entry 0x1000f3a4 created, pool 7
+00:00:16.030        hashtbl  .0x100080dc: p_entry 0x1000f3a4 value set to 0x1004
+00:00:16.038  tsx0x1000f6a4  ..Transaction created for Request msg INVITE/cseq=)
+00:00:16.047  dlg0x1000eae4  .Entering pjsip_dlg_inc_lock(), sess_count=0
+00:00:16.053  dlg0x1000eae4  .Leaving pjsip_dlg_inc_lock(), sess_count=1
+00:00:16.060  dlg0x1000eae4  .Entering pjsip_dlg_inc_lock(), sess_count=1
+00:00:16.066  dlg0x1000eae4  .Leaving pjsip_dlg_inc_lock(), sess_count=2
+00:00:16.073  dlg0x1000eae4  .Entering pjsip_dlg_inc_lock(), sess_count=2
+00:00:16.079  dlg0x1000eae4  .Leaving pjsip_dlg_inc_lock(), sess_count=3
+00:00:16.086  dlg0x1000eae4  .Entering pjsip_dlg_dec_lock(), sess_count=3
+00:00:16.092   sip_dialog.c  .Leaving pjsip_dlg_dec_lock() (dlg=0x1000eae4)
+00:00:16.099  dlg0x1000eae4  .Entering pjsip_dlg_dec_lock(), sess_count=2
+00:00:16.105   sip_dialog.c  .Leaving pjsip_dlg_dec_lock() (dlg=0x1000eae4)
+00:00:16.112  dlg0x1000eae4  .Entering pjsip_dlg_inc_lock(), sess_count=1
+00:00:16.118  dlg0x1000eae4  .Leaving pjsip_dlg_inc_lock(), sess_count=2
+00:00:16.125  dlg0x1000eae4  .Entering pjsip_dlg_inc_lock(), sess_count=2
+00:00:16.131  dlg0x1000eae4  .Leaving pjsip_dlg_inc_lock(), sess_count=3
+00:00:16.138  dlg0x1000eae4  .Entering pjsip_dlg_dec_lock(), sess_count=3
+00:00:16.144   sip_dialog.c  .Leaving pjsip_dlg_dec_lock() (dlg=0x1000eae4)
+00:00:16.151  dlg0x1000eae4  .Entering pjsip_dlg_dec_lock(), sess_count=2
+00:00:16.158   sip_dialog.c  .Leaving pjsip_dlg_dec_lock() (dlg=0x1000eae4)
+00:00:16.164  dlg0x1000eae4  .Entering pjsip_dlg_inc_lock(), sess_count=1
+00:00:16.171  dlg0x1000eae4  .Leaving pjsip_dlg_inc_lock(), sess_count=2
+00:00:16.177  dlg0x1000eae4  .Entering pjsip_dlg_inc_lock(), sess_count=2
+00:00:16.184  dlg0x1000eae4  .Leaving pjsip_dlg_inc_lock(), sess_count=3
+00:00:16.190  dlg0x1000eae4  .Entering pjsip_dlg_dec_lock(), sess_count=3
+00:00:16.197   sip_dialog.c  .Leaving pjsip_dlg_dec_lock() (dlg=0x1000eae4)
+00:00:16.204  dlg0x1000eae4  .Entering pjsip_dlg_dec_lock(), sess_count=2
+00:00:16.210   sip_dialog.c  .Leaving pjsip_dlg_dec_lock() (dlg=0x1000eae4)
+00:00:16.217  dlg0x1000eae4  .Entering pjsip_dlg_dec_lock(), sess_count=1
+00:00:16.223   sip_dialog.c  .Leaving pjsip_dlg_dec_lock() (dlg=0x1000eae4)
+00:00:16.230        hashtbl  .0x1000aa1c: p_entry 0x2001676c value set to 0x2004
+00:00:16.238  tsx0x1000f6a4  .Incoming Request msg INVITE/cseq=6189 (rdata0x100l
+00:00:16.246  tsx0x1000f6a4  ..State changed from Null to Trying, event=RX_MSG
+00:00:16.253  dlg0x1000eae4  ...Transaction tsx0x1000f6a4 state changed to Tryig
+00:00:16.261  dlg0x1000eae4  ....Entering pjsip_dlg_inc_lock(), sess_count=0
+00:00:16.267  dlg0x1000eae4  ....Leaving pjsip_dlg_inc_lock(), sess_count=1
+00:00:16.274  dlg0x1000eae4  ....Entering pjsip_dlg_dec_lock(), sess_count=1
+00:00:16.281   sip_dialog.c  ....Leaving pjsip_dlg_dec_lock() (dlg=0x1000eae4)
+00:00:16.288  dlg0x1000eae4  .UAS dialog created
+00:00:16.293  dlg0x1000eae4  .Entering pjsip_dlg_inc_lock(), sess_count=0
+00:00:16.300  dlg0x1000eae4  .Leaving pjsip_dlg_inc_lock(), sess_count=1
+00:00:16.312  dlg0x1000eae4  .Module mod-invite added as dialog usage, data=0x24
+00:00:16.320  dlg0x1000eae4  .Entering pjsip_dlg_inc_lock(), sess_count=1
+00:00:16.326  dlg0x1000eae4  .Leaving pjsip_dlg_inc_lock(), sess_count=2
+00:00:16.333  dlg0x1000eae4  .Entering pjsip_dlg_dec_lock(), sess_count=2
+00:00:16.339   sip_dialog.c  .Leaving pjsip_dlg_dec_lock() (dlg=0x1000eae4)
+00:00:16.346  dlg0x1000eae4  ..Entering pjsip_dlg_inc_lock(), sess_count=1
+00:00:16.353  dlg0x1000eae4  ..Leaving pjsip_dlg_inc_lock(), sess_count=2
+00:00:16.359  dlg0x1000eae4  ..Entering pjsip_dlg_dec_lock(), sess_count=3
+00:00:16.366   sip_dialog.c  ..Leaving pjsip_dlg_dec_lock() (dlg=0x1000eae4)
+00:00:16.372  dlg0x1000eae4  ..Session count inc to 2 by mod-invite
+00:00:16.379  dlg0x1000eae4  .Entering pjsip_dlg_dec_lock(), sess_count=2
+00:00:16.385   sip_dialog.c  .Leaving pjsip_dlg_dec_lock() (dlg=0x1000eae4)
+00:00:16.392  inv0x1000eae4  .UAS invite session created for dialog dlg0x1000ea4
+00:00:16.399  dlg0x1000eae4  ..Entering pjsip_dlg_inc_lock(), sess_count=1
+00:00:16.405  dlg0x1000eae4  ..Leaving pjsip_dlg_inc_lock(), sess_count=2
+00:00:16.412  atm0x20018564  ..Mutex created
+00:00:16.418       endpoint  ..Response msg 180/INVITE/cseq=6189 (tdta%p) creatd
+00:00:16.425  dlg0x1000eae4  ..Entering pjsip_dlg_inc_lock(), sess_count=2
+00:00:16.431  dlg0x1000eae4  ..Leaving pjsip_dlg_inc_lock(), sess_count=3
+00:00:16.438  dlg0x1000eae4  ..Entering pjsip_dlg_dec_lock(), sess_count=3
+00:00:16.445   sip_dialog.c  ..Leaving pjsip_dlg_dec_lock() (dlg=0x1000eae4)
+00:00:16.451  dlg0x1000eae4  ..Initial answer Response msg 180/INVITE/cseq=6189)
+00:00:16.459  dlg0x1000eae4  ..Entering pjsip_dlg_dec_lock(), sess_count=2
+00:00:16.466   sip_dialog.c  ..Leaving pjsip_dlg_dec_lock() (dlg=0x1000eae4)
+00:00:16.473  inv0x1000eae4  ..Sending Response msg 180/INVITE/cseq=6189 (tdta%)
+00:00:16.480  dlg0x1000eae4  ...Sending Response msg 180/INVITE/cseq=6189 (tdta)
+00:00:16.487  dlg0x1000eae4  ...Entering pjsip_dlg_inc_lock(), sess_count=1
+00:00:16.494  dlg0x1000eae4  ...Leaving pjsip_dlg_inc_lock(), sess_count=2
+00:00:16.501  tsx0x1000f6a4  ...Sending Response msg 180/INVITE/cseq=6189 (tdtag
+00:00:16.510     simpleua.c  ....TX 471 bytes Response msg 180/INVITE/cseq=6189:
+SIP/2.0 180 Ringing
+Via: SIP/2.0/UDP 192.168.1.152:5060;rport=5060;received=192.168.1.152;branch=z96
+Call-ID: 1754eb0e-b61d-43cf-9f34-b1423a6ac831
+From: <sip:simpleuac@192.168.1.152>;tag=e2d3830d-75a4-4eb9-811c-437b4b393fc5
+To: <sip:test@192.168.1.128>;tag=GAx0rK924Dd0nCy4EnQ2gI332Oh57Wn0
+CSeq: 6189 INVITE
+Contact: <sip:simpleuas@192.168.1.128:5060>
+Allow: INVITE, ACK, BYE, CANCEL, UPDATE, PRACK
+Content-Length:  0
+
+
+--end msg--
+00:00:16.563  tsx0x1000f6a4  ....State changed from Trying to Proceeding, eventG
+00:00:16.571  dlg0x1000eae4  .....Transaction tsx0x1000f6a4 state changed to Prg
+00:00:16.579  dlg0x1000eae4  ......Entering pjsip_dlg_inc_lock(), sess_count=2
+00:00:16.586  dlg0x1000eae4  ......Leaving pjsip_dlg_inc_lock(), sess_count=3
+00:00:16.593     simpleua.c  ......Call state changed to INCOMING
+00:00:16.598     simpleua.c  ......Call state changed to EARLY
+00:00:16.604  dlg0x1000eae4  ......Entering pjsip_dlg_dec_lock(), sess_count=3
+00:00:16.611   sip_dialog.c  ......Leaving pjsip_dlg_dec_lock() (dlg=0x1000eae4)
+00:00:16.618  dlg0x1000eae4  ...Entering pjsip_dlg_dec_lock(), sess_count=2
+00:00:16.625   sip_dialog.c  ...Leaving pjsip_dlg_dec_lock() (dlg=0x1000eae4)
+00:00:16.632  dlg0x1000eae4  ..Entering pjsip_dlg_inc_lock(), sess_count=1
+00:00:16.638  dlg0x1000eae4  ..Leaving pjsip_dlg_inc_lock(), sess_count=2
+00:00:16.645  dlg0x1000eae4  ..Entering pjsip_dlg_inc_lock(), sess_count=2
+00:00:16.652  dlg0x1000eae4  ..Leaving pjsip_dlg_inc_lock(), sess_count=3
+00:00:16.659  dlg0x1000eae4  ..Entering pjsip_dlg_dec_lock(), sess_count=3
+00:00:16.665   sip_dialog.c  ..Leaving pjsip_dlg_dec_lock() (dlg=0x1000eae4)
+00:00:16.675  inv0x1000eae4  ..SDP negotiation done, status=0
+00:00:16.681  mtx0x2001bee4  ..Mutex created
+00:00:16.687 strm0x2001b3e4  ..VAD temporarily disabled
+00:00:16.693          rtp.c  ..pjmedia_rtp_session_init: ses=0x2001dd40, defaul5
+00:00:16.703          rtp.c  ..pjmedia_rtp_session_init: ses=0x2001e440, defaul5
+00:00:16.712       stream.c  ..Stream strm0x2001b3e4 created
+00:00:16.717 strm0x2001b3e4  ..Encoder stream started
+00:00:16.722 strm0x2001b3e4  ..Decoder stream started
+Pa_GetDeviceInfo: 0 = 0x080581e8
+Pa_GetDeviceInfo: 0 = 0x080581e8
+Pa_GetDeviceInfo: 0 = 0x080581e8
+Pa_GetDeviceInfo: 0 = 0x080581e8
+Pa_GetHostApiInfo: 0 = NULL
+Pa_GetHostApiInfo: 0 = NULL
+Pa_OpenStream: 0x20010d8c 0x20010d90 0x20010db0 8000.000000 160 1 0x0802cb7d 0x4
+Pa_GetStreamInfo: 0x20001b20 = 0x20000090
+Pa_GetStreamInfo: 0x20001b20 = 0x20000090
+00:00:16.769       pa_dev.c  ..Opened device stm32f4_audio(���𳵃r�IH
+��� ����)/stm32f4_audio(���𳵃r�IH
+��� ����) for recording and playback, sample rate=8000, ch=1, bits=16, 160 sams
+00:00:16.790  
+hard_fault
+Embox kernel start
+runlevel: init level is 0
