@@ -65,10 +65,6 @@ void Delay(__IO uint32_t nTime);
 void WaveRecorderUpdate(void);
 void simple_rec_start(void);
 
-static void WaveRecorder_GPIO_Init(void);
-static void WaveRecorder_SPI_Init(uint32_t Freq);
-static void WaveRecorder_DMA_Init(void);
-
 #endif /* __WAVE_RECORDER_H */
 
 /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

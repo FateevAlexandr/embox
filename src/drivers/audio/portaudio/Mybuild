@@ -20,7 +20,7 @@ module stm32f4_pa extends portaudio_api {
 	option number buf_cnt=0x4
 
 
-/*	@AddPrefix("drivers/audio/portaudio")
+/*	@AddPrefix("drivers/audio/portaudio") 
 	source "libPDMFilter_GCC.a"
 
 	@IncludeExport(path="drivers/audio/portaudio")

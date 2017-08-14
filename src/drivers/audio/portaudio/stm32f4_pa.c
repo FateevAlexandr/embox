@@ -13,7 +13,7 @@
 #include <util/err.h>
 
 #include <stm32f4_discovery_audio_codec.h>
-//#include <stm32f4xx.h>
+#include <waverecorder.h>
 
 #include <framework/mod/options.h>
 #include <kernel/irq.h>
@@ -26,7 +26,6 @@
 #include <util/bit.h>
 
 #include <drivers/audio/portaudio.h>
-#include <drivers/audio/portaudio/waverecorder.h>
 
 
 extern void Audio_MAL_I2S_IRQHandler(void);

@@ -1,11 +1,7 @@
 /* Includes ------------------------------------------------------------------*/
 
-#include "mic_main.h"
 #include "pdm_filter.h"
 #include "waverecorder.h"
-
-
-
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -29,6 +25,10 @@ volatile uint16_t Mic_DMA_PDM_Buffer1[INTERNAL_BUFF_SIZE];//buffer for RAW MIC d
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
+
+static void WaveRecorder_GPIO_Init(void);
+static void WaveRecorder_SPI_Init(uint32_t Freq);
+static void WaveRecorder_DMA_Init(void);
 
 
 void DMA1_Stream3_IRQHandler(void)
