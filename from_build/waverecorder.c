@@ -30,22 +30,69 @@ static void WaveRecorder_GPIO_Init(void);
 static void WaveRecorder_SPI_Init(uint32_t Freq);
 static void WaveRecorder_DMA_Init(void);
 
+void mic_get_data(uint16_t *ptr){
+	int i, j;
+/*	for (i=0;i<(MIC_FILTER_RESULT_LENGTH*2);i++)
+	{
+		if (buffer_ready == 1) {
+			ptr[i] = RecBuf1[i>>1];
+		} else {
+			ptr[i] = RecBuf0[i>>1];
+		}//make pseudo-stereo
+
+//		ptr[i] = i * 20;
+	}
+*/
+
+	static uint16_t Mic_PDM_Buffer[512];//8k / 1000 * 64 (decimation) = 512 tmp buffer for HTONS
+	//u16 MicGain = 30;//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< GAIN
+	uint16_t* write_buf;//pointer for RAW data which must be filtered
+	uint16_t* decode_buf;//pointer for filtered PCM data
+	uint8_t tmp_buf_number;
+
+	decode_buf = ptr;
+	if ((DMA1_Stream3->CR & DMA_SxCR_CT) == 0)//get number of current buffer
+	{
+		write_buf = (uint16_t*)Mic_DMA_PDM_Buffer1;
+		tmp_buf_number = 1;
+	}
+	else
+	{
+		write_buf = (uint16_t*)Mic_DMA_PDM_Buffer0;
+		tmp_buf_number = 0;
+	}
+	//for (i=0;i<INTERNAL_BUFF_SIZE;i++){Mic_PDM_Buffer[i] = HTONS(write_buf[i]);}//swap bytes for filter
+
+	for (i=0;i<4;i++){
+		for(j = 0; j < 512; j++){
+			Mic_PDM_Buffer[j] = HTONS(write_buf[i]);
+		}
+		decode_buf[i] = write_buf[i];
+	}
+	//    PDM_Filter_64_LSB((uint8_t *)Mic_PDM_Buffer, decode_buf, MicGain , (PDMFilter_InitStruct *)&Filter);//filter RAW data
+	//    PDM_Filter_64_LSB((uint8_t *)write_buf, decode_buf, MicGain , (PDMFilter_InitStruct *)&Filter);//filter RAW data
+	buffer_ready = tmp_buf_number;
+
+
+
+}
+
 
 void DMA1_Stream3_IRQHandler(void)
 {
-  static uint16_t Mic_PDM_Buffer[INTERNAL_BUFF_SIZE];//tmp buffer for HTONS
-  uint8_t i;
-  uint16_t* write_buf;//pointer for RAW data which must be filtered
+//  static uint16_t Mic_PDM_Buffer[INTERNAL_BUFF_SIZE];//tmp buffer for HTONS
+//  uint8_t i;
+/*  uint16_t* write_buf;//pointer for RAW data which must be filtered
   uint16_t* decode_buf;//pointer for filtered PCM data
   u16 MicGain = 30;//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< GAIN
   uint8_t tmp_buf_number;
-  
+ */
 //  STM_EVAL_LEDOn(LED3);
   if (DMA_GetFlagStatus(DMA1_Stream3, DMA_FLAG_TCIF3) != RESET)
   {
     DMA_ClearFlag(DMA1_Stream3, DMA_FLAG_TCIF3);
     
-    if ((DMA1_Stream3->CR & DMA_SxCR_CT) == 0)//get number of current buffer
+/*    if ((DMA1_Stream3->CR & DMA_SxCR_CT) == 0)//get number of current buffer
     {
       write_buf = (uint16_t*)Mic_DMA_PDM_Buffer1;
       decode_buf = (uint16_t*)RecBuf1;
@@ -57,10 +104,12 @@ void DMA1_Stream3_IRQHandler(void)
       decode_buf = (uint16_t*)RecBuf0;
       tmp_buf_number = 0;
     }
-    for (i=0;i<INTERNAL_BUFF_SIZE;i++){Mic_PDM_Buffer[i] = HTONS(write_buf[i]);}//swap bytes for filter
+    */
+//    for (i=0;i<INTERNAL_BUFF_SIZE;i++){Mic_PDM_Buffer[i] = HTONS(write_buf[i]);}//swap bytes for filter
     
-    PDM_Filter_64_LSB((uint8_t *)Mic_PDM_Buffer, decode_buf, MicGain , (PDMFilter_InitStruct *)&Filter);//filter RAW data
-    buffer_ready = tmp_buf_number;
+//    PDM_Filter_64_LSB((uint8_t *)Mic_PDM_Buffer, decode_buf, MicGain , (PDMFilter_InitStruct *)&Filter);//filter RAW data
+//    PDM_Filter_64_LSB((uint8_t *)write_buf, decode_buf, MicGain , (PDMFilter_InitStruct *)&Filter);//filter RAW data
+//    buffer_ready = tmp_buf_number;
   }
 //  STM_EVAL_LEDOff(LED3);
 }
@@ -71,7 +120,7 @@ void DMA1_Stream3_IRQHandler(void)
 
 void simple_rec_start(void)
 {
-  WaveRecorderInit(64000, 16, 1);//64k = 16k*4 //4 = 64word / 16word
+  WaveRecorderInit(32000, 16, 1);//64k = 16k*4 //4 = 64word / 16word
   WaveRecorderStart(NULL, MIC_FILTER_RESULT_LENGTH);
 }
 
@@ -83,7 +132,7 @@ void simple_rec_start(void)
   * @retval None
   */
 uint32_t WaveRecorderInit(uint32_t AudioFreq, uint32_t BitRes, uint32_t ChnlNbr)
-{ 
+{
   /* Check if the interface is already initialized */
   if (AudioRecInited)
   {
@@ -96,10 +145,10 @@ uint32_t WaveRecorderInit(uint32_t AudioFreq, uint32_t BitRes, uint32_t ChnlNbr)
     RCC->AHB1ENR |= RCC_AHB1ENR_CRCEN;
     
     /* Filter LP & HP Init */
-    Filter.LP_HZ = 8000.0;
-    Filter.HP_HZ = 200.0;
+    Filter.LP_HZ = 0;
+    Filter.HP_HZ = 0;
 
-    Filter.Fs = 16000;
+    Filter.Fs = 8000;
     Filter.Out_MicChannels = 1;
     Filter.In_MicChannels = 1;
     
@@ -177,7 +226,8 @@ static void WaveRecorder_DMA_Init(void)
   NVIC_InitStructure.NVIC_IRQChannel = DMA1_Stream3_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 10;
   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 10;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
+//  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
   
   DMA_Cmd(DMA1_Stream3, ENABLE);

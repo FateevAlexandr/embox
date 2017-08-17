@@ -46,11 +46,11 @@
 #define AUDIO_REC_SPI_IRQHANDLER          SPI2_IRQHandler
 
 
-#define MIC_FILTER_RESULT_LENGTH (160 * 3) // 16
+#define MIC_FILTER_RESULT_LENGTH 15
 #define PCM_OUT_SIZE MIC_FILTER_RESULT_LENGTH
 
 /* PDM buffer input size */
-#define INTERNAL_BUFF_SIZE     (160 * 12)// 64
+#define INTERNAL_BUFF_SIZE     2048
 
 
 /* Exported constants --------------------------------------------------------*/
@@ -64,6 +64,7 @@ uint32_t WavaRecorderHeaderInit(uint8_t* pHeadBuf);
 void Delay(__IO uint32_t nTime);
 void WaveRecorderUpdate(void);
 void simple_rec_start(void);
+void mic_get_data(uint16_t *ptr);
 
 #endif /* __WAVE_RECORDER_H */
 

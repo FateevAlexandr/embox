@@ -29,6 +29,7 @@
 
 
 extern void Audio_MAL_I2S_IRQHandler(void);
+extern void DMA1_Stream3_IRQHandler(void);
 
 #define MODOPS_VOLUME      OPTION_GET(NUMBER, volume)
 #define MODOPS_SAMPLE_RATE OPTION_GET(NUMBER, sample_rate)
@@ -40,8 +41,9 @@ extern void Audio_MAL_I2S_IRQHandler(void);
 	} while (0)
 
 #define STM32F4_AUDIO_I2S_DMA_IRQ (AUDIO_I2S_DMA_IRQ + 16)
+#define STM32F4_MIC_I2S_DMA_IRQ (DMA1_Stream3_IRQn + 16)
 
-#define MAX_BUF_LEN (160 * 6)
+#define MAX_BUF_LEN 960 //(160 * 6)
 #define OUTPUT_CHAN_N 2
 #define BUF_N 2
 
@@ -64,25 +66,13 @@ static struct thread *pa_thread;
 static struct pa_strm pa_stream;
 
 static irq_return_t stm32f4_audio_i2s_dma_interrupt(unsigned int irq_num, void *dev_id);
-
-extern uint16_t RecBuf0[MIC_FILTER_RESULT_LENGTH]; //buffer for filtered PCM data from MIC
-extern uint16_t RecBuf1[MIC_FILTER_RESULT_LENGTH]; //buffer for filtered PCM data from MIC
-extern uint8_t buffer_ready;
+//static irq_return_t stm32f4_mic_i2s_dma_interrupt(unsigned int irq_num, void *dev_id);
 
 static void strm_get_data(struct pa_strm *strm, int buf_index) {
 	uint16_t *buf;
-	int i_in, rc, i;
+	int i_in, rc;
 
-	for (i=0;i<(MIC_FILTER_RESULT_LENGTH*2);i++)
-	{
-		if (buffer_ready == 1) {
-			strm->mic_buf[i] = RecBuf1[i>>1];
-		} else {
-			strm->mic_buf[i] = RecBuf0[i>>1];
-		}//make pseudo-stereo
-	}
-
-
+	mic_get_data(strm->mic_buf);
 
 	rc = strm->callback(strm->mic_buf, strm->in_buf, strm->chan_buf_len, NULL, 0, strm->callback_data);
 	if (rc == paComplete) {
@@ -91,6 +81,7 @@ static void strm_get_data(struct pa_strm *strm, int buf_index) {
 	else assert(rc == paContinue);
 
 	buf = strm->out_buf + buf_index * strm->chan_buf_len * OUTPUT_CHAN_N;
+
 	for (i_in = 0; i_in < strm->chan_buf_len; ++i_in) {
 		const uint16_t hw_frame = le16_to_cpu(strm->in_buf[i_in]);
 		int i_out;
@@ -214,6 +205,8 @@ PaError Pa_OpenStream(PaStream** stream,
 	D(": %p %p %p %f %lu %lu %p %p", __func__, stream, inputParameters,
 			outputParameters, sampleRate, framesPerBuffer, streamFlags, streamCallback, userData);
 
+	simple_rec_start();
+
 	strm = &pa_stream;
 	strm->started = 0;
 	strm->paused = 0;
@@ -234,20 +227,24 @@ PaError Pa_OpenStream(PaStream** stream,
 		goto err_thread_free;
 	}
 
+/*	if (0 != irq_attach(STM32F4_MIC_I2S_DMA_IRQ, stm32f4_mic_i2s_dma_interrupt,
+				0, strm, "stm32f4_audio")) {
+		goto err_thread_free;
+	}
+*/
 	EVAL_AUDIO_SetAudioInterface(AUDIO_INTERFACE_I2S);
 
 	if (0 != EVAL_AUDIO_Init(OUTPUT_DEVICE_HEADPHONE, MODOPS_VOLUME,
 				sampleRate)) {
 		goto err_irq_detach;
 	}
-	
-	simple_rec_start();
 
 	*stream = &pa_stream;
 	return paNoError;
 
 err_irq_detach:
 	irq_detach(STM32F4_AUDIO_I2S_DMA_IRQ, NULL);
+	irq_detach(STM32F4_MIC_I2S_DMA_IRQ, NULL);
 err_thread_free:
 	thread_delete(pa_thread);
 	pa_thread = NULL;
@@ -262,6 +259,7 @@ PaError Pa_CloseStream(PaStream *stream) {
 	EVAL_AUDIO_DeInit();
 
 	irq_detach(STM32F4_AUDIO_I2S_DMA_IRQ, NULL);
+	irq_detach(STM32F4_MIC_I2S_DMA_IRQ, NULL);
 
 	thread_delete(pa_thread);
 	pa_thread = NULL;
@@ -352,5 +350,13 @@ static irq_return_t stm32f4_audio_i2s_dma_interrupt(unsigned int irq_num, void *
 	return IRQ_HANDLED;
 }
 
+/*static irq_return_t stm32f4_mic_i2s_dma_interrupt(unsigned int irq_num, void *dev_id) {
+	DMA1_Stream3_IRQHandler();
+	return IRQ_HANDLED;
+}
+*/
 static_assert(63 == STM32F4_AUDIO_I2S_DMA_IRQ);
 STATIC_IRQ_ATTACH(63, stm32f4_audio_i2s_dma_interrupt, &pa_stream);
+
+//static_assert(30 == STM32F4_MIC_I2S_DMA_IRQ);
+//STATIC_IRQ_ATTACH(30, stm32f4_mic_i2s_dma_interrupt, &pa_stream);
