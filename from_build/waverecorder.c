@@ -38,13 +38,13 @@ static void WaveRecorder_DMA_Init(void);
 
 void mic_get_data(uint16_t *ptr){
 	int i, j;//, res;
-	static uint16_t Mic_PDM_Buffer[64];//tmp buffer for HTONS
+	static uint16_t Mic_PDM_Buffer[64], PCM_buf[16];//tmp buffer for HTONS
 	u16 MicGain = 30;//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< GAIN
 	uint16_t* write_buf;//pointer for RAW data which must be filtered
 	uint16_t* decode_buf;//pointer for filtered PCM data
 	uint8_t tmp_buf_number;
 
-	decode_buf = ptr;
+	decode_buf = PCM_buf;
 	if ((DMA1_Stream3->CR & DMA_SxCR_CT) == 0)//get number of current buffer
 	{
 		write_buf = (uint16_t*)Mic_DMA_PDM_Buffer1;
@@ -56,12 +56,17 @@ void mic_get_data(uint16_t *ptr){
 		tmp_buf_number = 0;
 	}
 
-	for (i=0;i<INTERNAL_BUFF_SIZE/32;i++){
-		for(j = 0; j < 32; j++){
-			Mic_PDM_Buffer[j] = HTONS(write_buf[j + i * 32]);
+	for (i=0;i<INTERNAL_BUFF_SIZE/64;i++){
+		for(j = 0; j < 64; j++){
+			Mic_PDM_Buffer[j] = HTONS(write_buf[j + i * 64]);
 		}
-		PDM_Filter_64_LSB((uint8_t *)Mic_PDM_Buffer, decode_buf + i * 8, MicGain , (PDMFilter_InitStruct *)&Filter);//filter RAW data
+		PDM_Filter_64_LSB((uint8_t *)Mic_PDM_Buffer, decode_buf, MicGain , (PDMFilter_InitStruct *)&Filter);//filter RAW data
+
+		for(j = 0; j < 8; j++){
+			ptr[j + i * 8] = decode_buf[2 * j];
+		}
 	}
+
 	buffer_ready = tmp_buf_number;
 //	D(": %d", __func__, res);
 }
@@ -104,9 +109,6 @@ void DMA1_Stream3_IRQHandler(void)
 }
 
 
-
-
-
 void simple_rec_start(void)
 {
   WaveRecorderInit(64000, 16, 1);//64k = 16k*4 //4 = 64word / 16word
@@ -134,10 +136,10 @@ uint32_t WaveRecorderInit(uint32_t AudioFreq, uint32_t BitRes, uint32_t ChnlNbr)
     RCC->AHB1ENR |= RCC_AHB1ENR_CRCEN;
     
     /* Filter LP & HP Init */
-    Filter.LP_HZ = 0;
-    Filter.HP_HZ = 0;
+    Filter.LP_HZ = 8000;
+    Filter.HP_HZ = 200;
 
-    Filter.Fs = 8000;
+    Filter.Fs = 16000;
     Filter.Out_MicChannels = 1;
     Filter.In_MicChannels = 1;
     
