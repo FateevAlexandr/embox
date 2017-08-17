@@ -2,6 +2,7 @@
 
 #include "pdm_filter.h"
 #include "waverecorder.h"
+#include <kernel/printk.h>
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -30,9 +31,14 @@ static void WaveRecorder_GPIO_Init(void);
 static void WaveRecorder_SPI_Init(uint32_t Freq);
 static void WaveRecorder_DMA_Init(void);
 
+#define D(fmt, ...) \
+	do { \
+		printk("%s" fmt "\n", __VA_ARGS__); \
+	} while (0)
+
 void mic_get_data(uint16_t *ptr){
-	int i, j;
-	static uint16_t Mic_PDM_Buffer[64];//8k / 1000 * 64 (decimation) = 512 tmp buffer for HTONS
+	int i, j;//, res;
+	static uint16_t Mic_PDM_Buffer[64];//tmp buffer for HTONS
 	u16 MicGain = 30;//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< GAIN
 	uint16_t* write_buf;//pointer for RAW data which must be filtered
 	uint16_t* decode_buf;//pointer for filtered PCM data
@@ -50,16 +56,14 @@ void mic_get_data(uint16_t *ptr){
 		tmp_buf_number = 0;
 	}
 
-	for (i=0;i<INTERNAL_BUFF_SIZE/64;i++){
-		for(j = 0; j < 64; j++){
-			Mic_PDM_Buffer[j] = HTONS(write_buf[i] + i * 64);
+	for (i=0;i<INTERNAL_BUFF_SIZE/32;i++){
+		for(j = 0; j < 32; j++){
+			Mic_PDM_Buffer[j] = HTONS(write_buf[j + i * 32]);
 		}
-		PDM_Filter_64_LSB((uint8_t *)Mic_PDM_Buffer, decode_buf + i * 16, MicGain , (PDMFilter_InitStruct *)&Filter);//filter RAW data
+		PDM_Filter_64_LSB((uint8_t *)Mic_PDM_Buffer, decode_buf + i * 8, MicGain , (PDMFilter_InitStruct *)&Filter);//filter RAW data
 	}
 	buffer_ready = tmp_buf_number;
-
-
-
+//	D(": %d", __func__, res);
 }
 
 
@@ -133,7 +137,7 @@ uint32_t WaveRecorderInit(uint32_t AudioFreq, uint32_t BitRes, uint32_t ChnlNbr)
     Filter.LP_HZ = 0;
     Filter.HP_HZ = 0;
 
-    Filter.Fs = 16000;
+    Filter.Fs = 8000;
     Filter.Out_MicChannels = 1;
     Filter.In_MicChannels = 1;
     

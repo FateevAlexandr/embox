@@ -50,7 +50,7 @@
 #define PCM_OUT_SIZE MIC_FILTER_RESULT_LENGTH
 
 /* PDM buffer input size */
-#define INTERNAL_BUFF_SIZE     3840 //64
+#define INTERNAL_BUFF_SIZE     3840 //64;
 
 
 /* Exported constants --------------------------------------------------------*/
