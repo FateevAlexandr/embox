@@ -46,11 +46,11 @@
 #define AUDIO_REC_SPI_IRQHANDLER          SPI2_IRQHandler
 
 
-#define MIC_FILTER_RESULT_LENGTH 15
+#define MIC_FILTER_RESULT_LENGTH 16
 #define PCM_OUT_SIZE MIC_FILTER_RESULT_LENGTH
 
 /* PDM buffer input size */
-#define INTERNAL_BUFF_SIZE     2048
+#define INTERNAL_BUFF_SIZE     3840 //64
 
 
 /* Exported constants --------------------------------------------------------*/

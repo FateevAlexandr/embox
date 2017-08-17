@@ -32,20 +32,8 @@ static void WaveRecorder_DMA_Init(void);
 
 void mic_get_data(uint16_t *ptr){
 	int i, j;
-/*	for (i=0;i<(MIC_FILTER_RESULT_LENGTH*2);i++)
-	{
-		if (buffer_ready == 1) {
-			ptr[i] = RecBuf1[i>>1];
-		} else {
-			ptr[i] = RecBuf0[i>>1];
-		}//make pseudo-stereo
-
-//		ptr[i] = i * 20;
-	}
-*/
-
-	static uint16_t Mic_PDM_Buffer[512];//8k / 1000 * 64 (decimation) = 512 tmp buffer for HTONS
-	//u16 MicGain = 30;//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< GAIN
+	static uint16_t Mic_PDM_Buffer[64];//8k / 1000 * 64 (decimation) = 512 tmp buffer for HTONS
+	u16 MicGain = 30;//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< GAIN
 	uint16_t* write_buf;//pointer for RAW data which must be filtered
 	uint16_t* decode_buf;//pointer for filtered PCM data
 	uint8_t tmp_buf_number;
@@ -61,16 +49,13 @@ void mic_get_data(uint16_t *ptr){
 		write_buf = (uint16_t*)Mic_DMA_PDM_Buffer0;
 		tmp_buf_number = 0;
 	}
-	//for (i=0;i<INTERNAL_BUFF_SIZE;i++){Mic_PDM_Buffer[i] = HTONS(write_buf[i]);}//swap bytes for filter
 
-	for (i=0;i<4;i++){
-		for(j = 0; j < 512; j++){
-			Mic_PDM_Buffer[j] = HTONS(write_buf[i]);
+	for (i=0;i<INTERNAL_BUFF_SIZE/64;i++){
+		for(j = 0; j < 64; j++){
+			Mic_PDM_Buffer[j] = HTONS(write_buf[i] + i * 64);
 		}
-		decode_buf[i] = write_buf[i];
+		PDM_Filter_64_LSB((uint8_t *)Mic_PDM_Buffer, decode_buf + i * 16, MicGain , (PDMFilter_InitStruct *)&Filter);//filter RAW data
 	}
-	//    PDM_Filter_64_LSB((uint8_t *)Mic_PDM_Buffer, decode_buf, MicGain , (PDMFilter_InitStruct *)&Filter);//filter RAW data
-	//    PDM_Filter_64_LSB((uint8_t *)write_buf, decode_buf, MicGain , (PDMFilter_InitStruct *)&Filter);//filter RAW data
 	buffer_ready = tmp_buf_number;
 
 
@@ -120,7 +105,7 @@ void DMA1_Stream3_IRQHandler(void)
 
 void simple_rec_start(void)
 {
-  WaveRecorderInit(32000, 16, 1);//64k = 16k*4 //4 = 64word / 16word
+  WaveRecorderInit(64000, 16, 1);//64k = 16k*4 //4 = 64word / 16word
   WaveRecorderStart(NULL, MIC_FILTER_RESULT_LENGTH);
 }
 
@@ -148,7 +133,7 @@ uint32_t WaveRecorderInit(uint32_t AudioFreq, uint32_t BitRes, uint32_t ChnlNbr)
     Filter.LP_HZ = 0;
     Filter.HP_HZ = 0;
 
-    Filter.Fs = 8000;
+    Filter.Fs = 16000;
     Filter.Out_MicChannels = 1;
     Filter.In_MicChannels = 1;
     
